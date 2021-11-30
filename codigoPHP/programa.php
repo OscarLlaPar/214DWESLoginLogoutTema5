@@ -18,12 +18,12 @@ and open the template in the editor.
             <a href="login.php"><div class="cuadro" id="arriba">&#60;</div></a>
         </header>
         <main>   
-            <a href="detalle.php"><div id="mtodepartamentos">Detalle</div></a>
+            <a href="detalle.php"><div>Detalle</div></a>
         </main>
         <footer>
             <p>
                 Óscar Llamas Parra &nbsp;
-                <a href="https://github.com/OscarLlaPar/" target="__blank"><img src="webroot/img/github.png" alt="Github"></img></a>
+                <a href="https://github.com/OscarLlaPar/" target="__blank"><img src="../webroot/img/github.png" alt="Github"></img></a>
             </p>
             <p>
                 DAW 2
