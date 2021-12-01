@@ -6,8 +6,10 @@
     color: white;
 }
 body{
+    
     font-family: Roboto, sans-serif;
     text-align: center;
+    
 }
 header{
     background-color:#0A001A;
@@ -23,6 +25,15 @@ header{
 }
 main{
     display:block;
+    height: 75vw;
+    
+}
+.mainLogin{
+    background: url("../img/fondogatos.jpg") no-repeat center center fixed;
+    height:80vh;
+    width:100vw;
+    background-size: 95%;
+    
 }
 a{
     text-decoration: none;
@@ -120,6 +131,7 @@ fieldset{
     padding: 10px;
     text-align: left;
     margin-top: 10px;
+    
 }
 .contenedorTabla{
     border: solid #00FFDD 1px;
@@ -172,12 +184,18 @@ p{
     background-color: white;
     color:black;
 }
+.login{
+    background-color: transparent;
+    width:15vw;
+    height:30vh;
+}
 .login fieldset{
     display:flex;
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    width:10vw;
-    height:50vh;
+    width:15vw;
+    height:30vh;
     margin: 10px auto;
+    background-color: rgb(0,0,0,0.5);
 }

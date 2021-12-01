@@ -1,3 +1,11 @@
+<?php
+/*
+    * Ventana de Detalle
+    * @author Óscar Llamas Parra - oscar.llapar@educa.jcyl.es - https://github.com/OscarLlaPar
+    * Última modificación: 01/12/2021
+*/
+session_start();
+?>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -18,12 +26,7 @@ and open the template in the editor.
             <a href="programa.php"><div class="cuadro" id="arriba">&#60;</div></a>
         </header>
         <main>   
-            <h1>$_SERVER</h1>
-            <pre>
-            <?php
-                print_r($_SERVER);
-            ?>
-            </pre>
+            
             <h1>$_SESSION</h1>
             <pre>
             <?php
@@ -34,6 +37,12 @@ and open the template in the editor.
             <pre>
             <?php
                 print_r($_COOKIE);
+            ?>
+            </pre>
+            <h1>$_SERVER</h1>
+            <pre>
+            <?php
+                print_r($_SERVER);
             ?>
             </pre>
             <h1>$_REQUEST</h1>

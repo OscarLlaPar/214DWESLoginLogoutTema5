@@ -16,10 +16,10 @@ create table if not exists T01_Usuario(
     T01_CodUsuario varchar(8) primary key,
     T01_Password varchar(64) not null,
     T01_DescUsuario varchar(255) not null,
-    T01_FechaHoraUltimaConexion datetime default now(),
-    T01_NumConexiones int unsigned not null default 1,
+    T01_FechaHoraUltimaConexion int default null,
+    T01_NumConexiones int unsigned default 0,
     T01_Perfil enum('usuario','administrador') default 'usuario',
-    T01_ImagenUsuario blob null
+    T01_ImagenUsuario blob default null
 )engine=InnoDB;
 
 create table if not exists T02_Departamento(

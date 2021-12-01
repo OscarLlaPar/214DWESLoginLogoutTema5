@@ -1,36 +1,78 @@
 <?php
+/*
+    * Ventana de Login
+    * @author Óscar Llamas Parra - oscar.llapar@educa.jcyl.es - https://github.com/OscarLlaPar
+    * Última modificación: 01/12/2021
+*/
 include "../config/confDB.php";
+include "../core/libreriaValidacion.php";
 $entradaOK=true;
-if(isset($_REQUEST['usuario']) && isset($_REQUEST['password'])){
+$aRespuestas=[
+    'usuario'=>null,
+    'password'=>null
+];
+$oFechaHora=new DateTime();
+$timeStampActual=$oFechaHora->getTimestamp();
+if(isset($_REQUEST['login'])){
+    if (validacionFormularios::comprobarAlfaNumerico($_REQUEST['usuario'], 8, 4, 1) || validacionFormularios::comprobarAlfaNumerico($_REQUEST['password'], 8, 4, 1)) {
+        $entradaOK = false;
+    }
+    else{
+        try{
+            $miDB = new PDO(HOST, USER, PASSWORD);
+            $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $consulta=<<<QUERY
+                    SELECT T01_Password, T01_FechaHoraUltimaConexion FROM T01_Usuario
+                    WHERE T01_CodUsuario ='$_REQUEST[usuario]'
+                    QUERY;
+
+            $resultadoConsulta = $miDB->prepare($consulta);
+            $resultadoConsulta->execute();
+            $oRegistro = $resultadoConsulta->fetchObject();
+            
+            if(!$oRegistro || $oRegistro->T01_Password != hash('sha256', $_REQUEST['usuario'].$_REQUEST['password'])){
+
+                $entradaOK=false;
+            }
+            else{
+                $timeStampConexionAnterior = $oRegistro->T01_FechaHoraUltimaConexion;
+            }
+        }    
+        //Gestión de errores relacionados con la base de datos
+        catch(PDOException $miExceptionPDO){
+            echo "Error: ".$miExceptionPDO->getMessage();
+            echo "<br>";
+            echo "Código de error: ".$miExceptionPDO->getCode();
+        }
+        finally{
+         //Cerrar la conexión
+         unset($miDB);
+        }
+    }
+    
+}
+else{
+    $entradaOK=false;
+}
+if($entradaOK){
+    $aRespuestas=[
+    'usuario'=>$_REQUEST['usuario']
+];
     try{
         $miDB = new PDO(HOST, USER, PASSWORD);
         $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-        $consulta=<<<QUERY
-                SELECT T01_Password FROM T01_Usuario
-                WHERE T01_CodUsuario ='$_REQUEST[usuario]'
-                QUERY;
-    
-        $resultadoConsulta = $miDB->prepare($consulta);
-        $resultadoConsulta->execute();
-        $oRegistro = $resultadoConsulta->fetchObject();
-        if($oRegistro->T01_Password != hash('sha256', $_REQUEST['usuario'].$_REQUEST['password'])){
-            var_dump($oRegistro);
-            $entradaOK=false;
-        }
-        else{
-            $consultaUpdate=<<<QUERY
-                UPDATE FROM T01_Usuario
-                SET T01_FechaHoraUltimaConexion=now(),
+        $consultaUpdate=<<<QUERY
+                UPDATE T01_Usuario
+                SET T01_FechaHoraUltimaConexion={$timeStampActual},
                 T01_NumConexiones=T01_NumConexiones+1
-                WHERE T01_CodUsuario ='$_REQUEST[usuario]'
+                WHERE T01_CodUsuario ='{$aRespuestas['usuario']}'
                 QUERY;
-            $resultadoConsultaUpdate = $miDB->prepare($consultaUpdate);
-            $resultadoConsultaUpdate->execute();   
-        }
-    }    
-    //Gestión de errores relacionados con la base de datos
-    catch(PDOException $miExceptionPDO){
+        $resultadoConsultaUpdate = $miDB->prepare($consultaUpdate);
+        $resultadoConsultaUpdate->execute();   
+        
+    } catch(PDOException $miExceptionPDO){
         echo "Error: ".$miExceptionPDO->getMessage();
         echo "<br>";
         echo "Código de error: ".$miExceptionPDO->getCode();
@@ -39,11 +81,9 @@ if(isset($_REQUEST['usuario']) && isset($_REQUEST['password'])){
      //Cerrar la conexión
      unset($miDB);
     }
-}
-else{
-    $entradaOK=false;
-}
-if($entradaOK){
+    session_start();
+    $_SESSION['usuario214LoginLogout'] = $aRespuestas['usuario'];
+    $_SESSION['conexionAnterior'] = $timeStampConexionAnterior;
     header("Location: programa.php");
 }
 else{
@@ -66,30 +106,31 @@ and open the template in the editor.
             
             <a href="../index.php"><div class="cuadro" id="arriba">&#60;</div></a>
         </header>
-        <form class="login" name="login" action="login.php">
-            <fieldset>
-                <table>
-                    <tr>
-                        <td>
-                            <label for="usuario">Nombre de usuario: </label>
-                        </td>
-                        <td>
-                            <input id="usuario" type="text" name="usuario" placeholder="Nombre">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="password">Contraseña: </label>
-                        </td>
-                        <td>
-                            <input id="password" type="password" name="password" placeholder="Contraseña">
-                        </td>
-                    </tr>
-                </table>
-                <input class="boton" id="entrar" type="submit" name="entrar" value="Entrar">
-            </fieldset>
-        </form>
-        
+        <main class="mainLogin">
+            <form class="login" name="login" action="login.php">
+                <fieldset>
+                    <table>
+                        <tr>
+                            <td>
+                                <label for="usuario">Nombre de usuario: </label>
+                            </td>
+                            <td>
+                                <input id="usuario" type="text" name="usuario" placeholder="Nombre">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="password">Contraseña: </label>
+                            </td>
+                            <td>
+                                <input id="password" type="password" name="password" placeholder="Contraseña">
+                            </td>
+                        </tr>
+                    </table>
+                    <input class="boton" id="entrar" type="submit" name="login" value="Entrar">
+                </fieldset>
+            </form>
+        </main>
     </body>
 </html>
 <?php
