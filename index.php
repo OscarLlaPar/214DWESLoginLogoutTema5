@@ -1,3 +1,13 @@
+<?php
+   
+    setcookie('idioma',0, strtotime('+2 days') );
+    
+    /*$arrayPalabras=[
+      "Hola", "Hello"  
+    ];
+    echo $arrayPalabras[$_COOKIE['Idioma']];*/
+    
+?>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -16,9 +26,27 @@ and open the template in the editor.
             <h2>Tema 5</h2>
             
             <a href="../214DWESProyectoTema5/indexProyectoTema5.php"><div class="cuadro" id="arriba">&#60;</div></a>
+            
         </header>
+        <?php
+        $arrayPalabras=[
+            "Hola", "Hello", "Hallo"  
+          ];
+        echo $arrayPalabras[$_COOKIE['idioma']];?>
         <main>   
             <a href="codigoPHP/login.php"><div id="loginlogout">LoginLogout</div></a>
+            
+            <div class="idiomas">
+                <form action="index.php">
+                    <input id="spanish" type="radio" name="idioma" value="0">
+                    <label for="spanish"><img src="webroot/img/spain.svg"></label>
+                    <input id="english" type="radio" name="idioma" value="1">
+                    <label for="english"><img src="webroot/img/uk.png"></label>
+                    <input id="norwish" type="radio" name="idioma" value="2">
+                    <label for="norwish"><img src="webroot/img/norway.png"></label>
+                    <input type="submit" name="cambiarIdioma" value="Cambiar idioma">
+                </form>
+            </div>
         </main>
         <footer>
             <p>

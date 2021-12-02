@@ -5,6 +5,9 @@
     * Última modificación: 01/12/2021
 */
 session_start();
+if (!isset($_SESSION['usuario214LoginLogout'])) {
+    header('Location: login.php');
+}
 ?>
 <!DOCTYPE html>
 <!--

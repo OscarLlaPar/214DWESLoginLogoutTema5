@@ -5,6 +5,13 @@
     * Última modificación: 01/12/2021
 */
 session_start();
+if (!isset($_SESSION['usuario214LoginLogout'])) {
+    header('Location: login.php');
+}
+if (isset($_REQUEST['logout'])) {
+    session_destroy();
+    header('Location: login.php');
+}
 include "../config/confDB.php";
 $oFecha=new DateTime();
 try{
@@ -52,7 +59,7 @@ and open the template in the editor.
             <h1>LoginLogout</h1>
             <h2>Tema 5</h2>
             
-            <a href="login.php"><div class="cuadro" id="arriba">&#60;</div></a>
+            <div class="cuadro" ></div>
         </header>
         <main>   
             <div>
@@ -61,6 +68,9 @@ and open the template in the editor.
                 <p><?php  echo ($numConexiones==1)?"":"Fecha de la última conexión:".$oFecha->setTimestamp($_SESSION['conexionAnterior'])->format("d-m-Y h:i:s")?></p>
             </div>
             <a href="detalle.php"><div class="boton">Detalle</div></a>
+            <form name="logout" action="programa.php">
+                <input type="submit" class="boton" name="logout" value="Cerrar sesión" type="button"/>
+            </form>
            
         </main>
         <footer>
