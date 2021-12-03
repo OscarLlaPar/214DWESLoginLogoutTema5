@@ -5,6 +5,37 @@
     * Última modificación: 01/12/2021
 */
 session_start();
+
+$aIdiomas=[
+  "Bienvenido/a", "Welcome", "Velkommen", "어서 오십시오"  
+];
+$aGatos=[
+    'imagen' => [
+        "../webroot/img/dd.jpg",
+        "../webroot/img/tt.jpg",
+        "../webroot/img/coco.jpg",
+        "../webroot/img/momo.jpg",
+        "../webroot/img/chuchu.jpg",
+        "../webroot/img/lala.png",
+        "../webroot/img/lulu.png",
+        "../webroot/img/nana.jpg",
+        "../webroot/img/toto.jpg",
+        "../webroot/img/dodo.jpg",
+    ],
+    'mensaje' => [
+        "DD dice: \"DD es lindo. DD quiere pan.\"",
+        "TT dice: \"Yo soy la reina\"",
+        "CoCo dice: \"Hmm... Interesante uso de las cookies...\"",
+        "MoMo dice: \"En mi juventud yo tambien hice muchos LoginLogout.\"",
+        "ChuChu dice: \"¿Chu? Chu...\"",
+        "LaLa dice: \"¡¡Myah, myah!!\"",
+        "LuLu dice: \"Perdone, soy LuLu, ¿puedo comer una cookie?\"",
+        "NaNa dice: \"¡¡Yo solo quiero amor!!\"",
+        "Toto dice: *beep-beep*",
+        "DoDo dice: \"¿LoginLogout? ¿Eso es comida?\"",
+    ]
+];
+
 if (!isset($_SESSION['usuario214LoginLogout'])) {
     header('Location: login.php');
 }
@@ -58,20 +89,24 @@ and open the template in the editor.
         <header>
             <h1>LoginLogout</h1>
             <h2>Tema 5</h2>
-            
-            <div class="cuadro" ></div>
-        </header>
-        <main>   
-            <div>
-                <p>Bienvenido/a <?php echo $usuarioCompleto;?>!</p>
-                <p><?php echo ($numConexiones==1)?"Es la primera vez que te conectas!": "Te has conectado {$numConexiones} veces en total";?> </p>
-                <p><?php  echo ($numConexiones==1)?"":"Fecha de la última conexión:".$oFecha->setTimestamp($_SESSION['conexionAnterior'])->format("d-m-Y h:i:s")?></p>
-            </div>
-            <a href="detalle.php"><div class="boton">Detalle</div></a>
-            <form name="logout" action="programa.php">
+            <form id="logout" name="logout" action="programa.php">
                 <input type="submit" class="boton" name="logout" value="Cerrar sesión" type="button"/>
             </form>
-           
+        </header>
+        <main class="mainPrograma">   
+            
+            <div class="info">
+                <p> <?php echo $aIdiomas[$_COOKIE['idioma']].", ".$usuarioCompleto;?>!</p>
+                <p><?php echo ($numConexiones==1)?"Es la primera vez que te conectas!": "Te has conectado {$numConexiones} veces en total";?> </p>
+                <p><?php  echo ($numConexiones==1)?"":"Última conexión:".$oFecha->setTimestamp($_SESSION['conexionAnterior'])->format("d-m-Y h:i:s")?></p>
+                <a href="detalle.php"><div class="boton">Detalle</div></a>
+            </div>
+            
+            
+           <div class="gato">
+                <?php echo "<img src=\"".$aGatos[imagen][$_COOKIE[gato]]."\"";?>
+                <p><?php echo $aGatos[mensaje][$_COOKIE[gato]]?></p>
+            </div>
         </main>
         <footer>
             <p>

@@ -87,6 +87,32 @@ if($entradaOK){
     header("Location: programa.php");
 }
 else{
+    $aGatos=[
+      'imagen' => [
+          "../webroot/img/dd.jpg",
+          "../webroot/img/tt.jpg",
+          "../webroot/img/coco.jpg",
+          "../webroot/img/momo.jpg",
+          "../webroot/img/chuchu.jpg",
+          "../webroot/img/lala.png",
+          "../webroot/img/lulu.png",
+          "../webroot/img/nana.jpg",
+          "../webroot/img/toto.jpg",
+          "../webroot/img/dodo.jpg",
+      ],
+      'mensaje' => [
+          "DD dice: \"DD es lindo. DD quiere pan.\"",
+          "TT dice: \"Yo soy la reina\"",
+          "CoCo dice: \"Hmm... Interesante uso de las cookies...\"",
+          "MoMo dice: \"En mi juventud yo tambien hice muchos LoginLogout.\"",
+          "ChuChu dice: \"¿Chu? Chu...\"",
+          "LaLa dice: \"¡¡Myah, myah!!\"",
+          "LuLu dice: \"Perdone, soy LuLu, ¿puedo comer una cookie?\"",
+          "NaNa dice: \"¡¡Yo solo quiero amor!!\"",
+          "Toto dice: *beep-beep*",
+          "DoDo dice: \"¿LoginLogout? ¿Eso es comida?\"",
+      ]
+    ];
 ?>
 <!DOCTYPE html>
 <!--
@@ -107,29 +133,33 @@ and open the template in the editor.
             <a href="../index.php"><div class="cuadro" id="arriba">&#60;</div></a>
         </header>
         <main class="mainLogin">
-            <form class="login" name="login" action="login.php">
-                <fieldset>
-                    <table>
-                        <tr>
-                            <td>
-                                <label for="usuario">Nombre de usuario: </label>
-                            </td>
-                            <td>
-                                <input id="usuario" type="text" name="usuario" placeholder="Nombre">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label for="password">Contraseña: </label>
-                            </td>
-                            <td>
-                                <input id="password" type="password" name="password" placeholder="Contraseña">
-                            </td>
-                        </tr>
-                    </table>
-                    <input class="boton" id="entrar" type="submit" name="login" value="Entrar">
-                </fieldset>
-            </form>
+            <div class="login">
+                <form name="login" action="login.php">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label for="usuario">Nombre de usuario: </label>
+                                </td>
+                                <td>
+                                    <input id="usuario" type="text" name="usuario" placeholder="Nombre">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="password">Contraseña: </label>
+                                </td>
+                                <td>
+                                    <input id="password" type="password" name="password" placeholder="Contraseña">
+                                </td>
+                            </tr>
+                        </table>
+                        <input class="boton" id="entrar" type="submit" name="login" value="Entrar">
+                </form>
+            </div>
+            <div class="gato">
+                <?php echo "<img src=\"".$aGatos[imagen][$_COOKIE[gato]]."\"";?>
+                <p><?php echo $aGatos[mensaje][$_COOKIE[gato]]?></p>
+            </div>
         </main>
     </body>
 </html>

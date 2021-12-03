@@ -1,12 +1,12 @@
 <?php
    
-    setcookie('idioma',0, strtotime('+2 days') );
-    
-    /*$arrayPalabras=[
-      "Hola", "Hello"  
-    ];
-    echo $arrayPalabras[$_COOKIE['Idioma']];*/
-    
+     
+    if(isset($_REQUEST['idioma'])){
+        setcookie("idioma", $_REQUEST['idioma'], strtotime('+5 days')); 
+    }
+    if(isset($_REQUEST['gato'])){
+        setcookie("gato", $_REQUEST['gato'], strtotime('+5 days')); 
+    }
 ?>
 <!DOCTYPE html>
 <!--
@@ -28,25 +28,37 @@ and open the template in the editor.
             <a href="../214DWESProyectoTema5/indexProyectoTema5.php"><div class="cuadro" id="arriba">&#60;</div></a>
             
         </header>
-        <?php
-        $arrayPalabras=[
-            "Hola", "Hello", "Hallo"  
-          ];
-        echo $arrayPalabras[$_COOKIE['idioma']];?>
         <main>   
             <a href="codigoPHP/login.php"><div id="loginlogout">LoginLogout</div></a>
             
             <div class="idiomas">
                 <form action="index.php">
-                    <input id="spanish" type="radio" name="idioma" value="0">
-                    <label for="spanish"><img src="webroot/img/spain.svg"></label>
-                    <input id="english" type="radio" name="idioma" value="1">
-                    <label for="english"><img src="webroot/img/uk.png"></label>
-                    <input id="norwish" type="radio" name="idioma" value="2">
-                    <label for="norwish"><img src="webroot/img/norway.png"></label>
-                    <input type="submit" name="cambiarIdioma" value="Cambiar idioma">
+                    <h4>Idioma de bienvenida:</h4>
+                    <button type="submit" name="idioma" value="0" <?php echo ($_REQUEST['idioma']=="0")?"class=\"activado\"":""?>><img src="webroot/img/spain.svg"></button>
+                    <button type="submit" name="idioma" value="1" <?php echo ($_REQUEST['idioma']=="1")?"class=\"activado\"":""?>><img src="webroot/img/uk.png"></button>
+                    <button type="submit" name="idioma" value="2" <?php echo ($_REQUEST['idioma']=="2")?"class=\"activado\"":""?>><img src="webroot/img/norway.png"></button>
+                    <button type="submit" name="idioma" value="3" <?php echo ($_REQUEST['idioma']=="3")?"class=\"activado\"":""?>><img src="webroot/img/korea.png"></button>
                 </form>
             </div>
+            <form action="index.php">
+                <h4>¿Qué gato prefieres?</h4>
+                <table>
+                    <tr>
+                        <td><button type="submit" name="gato" value="0" <?php echo ($_REQUEST['gato']=="0")?"class=\"activado\"":""?>>DD</button></td>
+                        <td><button type="submit" name="gato" value="1" <?php echo ($_REQUEST['gato']=="1")?"class=\"activado\"":""?>>TT</button></td>
+                        <td><button type="submit" name="gato" value="2" <?php echo ($_REQUEST['gato']=="2")?"class=\"activado\"":""?>>CoCo</button></td>
+                        <td><button type="submit" name="gato" value="3" <?php echo ($_REQUEST['gato']=="3")?"class=\"activado\"":""?>>MoMo</button></td>
+                        <td><button type="submit" name="gato" value="4" <?php echo ($_REQUEST['gato']=="4")?"class=\"activado\"":""?>>ChuChu</button></td>
+                    </tr>
+                    <tr>
+                        <td><button type="submit" name="gato" value="5" <?php echo ($_REQUEST['gato']=="5")?"class=\"activado\"":""?>>LaLa</button></td>
+                        <td><button type="submit" name="gato" value="6" <?php echo ($_REQUEST['gato']=="6")?"class=\"activado\"":""?>>LuLu</button></td>
+                        <td><button type="submit" name="gato" value="7" <?php echo ($_REQUEST['gato']=="7")?"class=\"activado\"":""?>>NaNa</button></td>
+                        <td><button type="submit" name="gato" value="8" <?php echo ($_REQUEST['gato']=="8")?"class=\"activado\"":""?>>ToTo</button></td>
+                        <td><button type="submit" name="gato" value="9" <?php echo ($_REQUEST['gato']=="9")?"class=\"activado\"":""?>>DoDo</button></td>
+                    </tr>
+                </table>
+            </form>
         </main>
         <footer>
             <p>

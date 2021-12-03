@@ -25,15 +25,18 @@ header{
 }
 main{
     display:block;
-    height: 75vw;
     
 }
 .mainLogin{
-    background: url("../img/fondogatos.jpg") no-repeat center center fixed;
-    height:80vh;
-    width:100vw;
-    background-size: 95%;
-    
+    display:flex;
+    justify-content: center;
+    padding:10px;
+}
+.mainPrograma{
+    display:flex;
+    flex-flow:row;
+    justify-content: center;
+    padding:10px;
 }
 a{
     text-decoration: none;
@@ -73,6 +76,7 @@ footer{
     height: 10vh;
     text-align: left;
     border-top: solid purple 2px;
+    float:bottom;
 }
 .cuadro{
     background-color: #00FFDD;
@@ -99,7 +103,7 @@ input{
     border:none;
     border-bottom: solid magenta 1px;
 }
-input[type="text"]{
+input[type="text"], input[type="password"]{
     width: 250px;
     padding: 5px;
     margin: 0 5px;
@@ -159,12 +163,6 @@ fieldset{
 .celdaIcono{
     width: 40px;
 }
-input[readonly="readonly"]{
-    border:none;
-    background-color: #020202;
-    border: solid gray 1px;
-    color: grey;
-}
 form table, form tr, form td, form th{
     border: none;
     background-color: transparent;
@@ -190,27 +188,47 @@ form{
     margin:0;
 }
 .login{
-    background-color: transparent;
-    width:15vw;
-    height:30vh;
+    flex-basis: 50%;
 }
-.login fieldset{
-    display:flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-    width:15vw;
-    height:30vh;
-    margin: 10px auto;
-    background-color: rgb(0,0,0,0.5);
+.idiomas{
+    height:64px;
 }
 .idiomas img{
     width:32px;
     height:24px;
 }
-.idiomas input:checked+label>img{
+button{
+    border: none;
+}
+button:hover{
+    cursor:pointer;
+}
+.gato{
+    border:solid #00FFDD 2px;
+    height:fit-content;
+    width:fit-content;
+    padding:5px;
+    display: flex;
+    flex-flow:column;
+    align-items: center;
+    
+}
+.gato *{
+    display:block;
+}
+.activado{
     border:solid #00FFDD 2px;
 }
-.idiomas input[type="radio"]{
-    display:none;
+.gato img{
+    width:350px;
+    height:350px;
+    margin:5px;
+}
+#logout{
+    height:50px;
+    margin:0;
+    padding:0;
+}
+.info{
+    flex-basis:50%;
 }
