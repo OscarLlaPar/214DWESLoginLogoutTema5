@@ -1,5 +1,5 @@
 <?php
-include '../config/confDBPDO.php';
+include '../config/confDB.php';
 try{ //Dentro va el código susceptible de dar error
     //Establecimiento de la conexión 
     $miDB = new PDO(HOST, USER, PASSWORD);
