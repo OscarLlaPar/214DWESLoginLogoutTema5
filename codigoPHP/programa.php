@@ -104,8 +104,8 @@ and open the template in the editor.
             
             
            <div class="gato">
-                <?php echo "<img src=\"".$aGatos[imagen][$_COOKIE[gato]]."\"";?>
-                <p><?php echo $aGatos[mensaje][$_COOKIE[gato]]?></p>
+                <?php echo "<img src=\"".$aGatos['imagen'][$_COOKIE['gato']]."\"";?>
+                <p><?php echo $aGatos['mensaje'][$_COOKIE['gato']]?></p>
             </div>
         </main>
         <footer>
