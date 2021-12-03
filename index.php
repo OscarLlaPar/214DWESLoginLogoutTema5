@@ -77,6 +77,9 @@ and open the template in the editor.
             <p>
                 IES Los Sauces, Benavente 2021-2022
             </p>
+            <p>
+                Versión 1.2
+            </p>
             <div class="cuadro" id="abajo"></div>
         </footer>
     </body>
