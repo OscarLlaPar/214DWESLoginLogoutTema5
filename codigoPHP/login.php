@@ -155,6 +155,7 @@ and open the template in the editor.
                         </table>
                         <input class="boton" id="entrar" type="submit" name="login" value="Entrar">
                 </form>
+                <p>¿No tienes cuenta? <a href="registro.php">Regístrate</a></p>
             </div>
             <div class="gato">
                 <?php echo "<img src=\"".$aGatos['imagen'][$_COOKIE['gato']]."\"";?>

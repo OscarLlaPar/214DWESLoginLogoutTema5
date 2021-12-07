@@ -1,17 +1,8 @@
 <?php
-   
-     
-    if(isset($_REQUEST['idioma'])){
-        setcookie("idioma", $_REQUEST['idioma'], strtotime('+5 days')); 
-    }
-    elseif (!isset($_COOKIE['idioma'])){
-        setcookie("idioma", 0, strtotime('+5 days')); 
-    }
-    if(isset($_REQUEST['gato'])){
-        setcookie("gato", $_REQUEST['gato'], strtotime('+5 days')); 
-    }
-    elseif (!isset($_COOKIE['gato'])){
-        setcookie("gato", 0, strtotime('+5 days')); 
+    if(isset($_REQUEST['entrar'])){
+        setcookie('idioma', $_REQUEST['idioma']);
+        setcookie('gato', $_REQUEST['gato']);
+        header("Location: codigoPHP/login.php");
     }
 ?>
 <!DOCTYPE html>
@@ -34,41 +25,72 @@ and open the template in the editor.
             <a href="../214DWESProyectoTema5/indexProyectoTema5.php"><div class="cuadro" id="arriba">&#60;</div></a>
             
         </header>
-        <main>   
-            <a href="codigoPHP/login.php"><div id="loginlogout">LoginLogout</div></a>
-            
-            <div class="idiomas">
-                <form action="index.php">
-                    <h4>Idioma de bienvenida:</h4>
-                    <button type="submit" name="idioma" value="0" <?php echo (isset($_REQUEST['idioma']) && $_REQUEST['idioma']=="0")?"class=\"activado\"":""?>><img src="webroot/img/spain.svg"></button>
-                    <button type="submit" name="idioma" value="1" <?php echo (isset($_REQUEST['idioma']) && $_REQUEST['idioma']=="1")?"class=\"activado\"":""?>><img src="webroot/img/uk.png"></button>
-                    <button type="submit" name="idioma" value="2" <?php echo (isset($_REQUEST['idioma']) && $_REQUEST['idioma']=="2")?"class=\"activado\"":""?>><img src="webroot/img/norway.png"></button>
-                    <button type="submit" name="idioma" value="3" <?php echo (isset($_REQUEST['idioma']) && $_REQUEST['idioma']=="3")?"class=\"activado\"":""?>><img src="webroot/img/korea.png"></button>
-                </form>
-            </div>
-            <form action="index.php">
+        <main class="mainIndex">  
+            <form action="index.php">    
+            <button type="submit" name="entrar"><div id="loginlogout">LoginLogout</div></button>
+                <div class="idiomas">
+                        <h4>Idioma de bienvenida:</h4>
+                        <input id="spanish" type="radio" name="idioma" value="0" checked>
+                        <label for="spanish"><img src="webroot/img/spain.svg"></label>
+                        <input id="english" type="radio" name="idioma" value="1">
+                        <label for="english"><img src="webroot/img/uk.png"></label>
+                        <input id="norwegian" type="radio" name="idioma" value="2">
+                        <label for="norwegian"><img src="webroot/img/norway.png"></label>
+                        <input id="korean" type="radio" name="idioma" value="3" >
+                        <label for="korean"><img src="webroot/img/korea.png"></label>
+                </div>
                 <h4>¿Qué gato prefieres?</h4>
-                <table>
+                <table class="gatos">
                     <tr>
-                        <td><button type="submit" name="gato" value="0" <?php echo (isset($_REQUEST['gato']) && $_REQUEST['gato']=="0")?"class=\"activado\"":""?>>DD</button></td>
-                        <td><button type="submit" name="gato" value="1" <?php echo (isset($_REQUEST['gato']) && $_REQUEST['gato']=="1")?"class=\"activado\"":""?>>TT</button></td>
-                        <td><button type="submit" name="gato" value="2" <?php echo (isset($_REQUEST['gato']) && $_REQUEST['gato']=="2")?"class=\"activado\"":""?>>CoCo</button></td>
-                        <td><button type="submit" name="gato" value="3" <?php echo (isset($_REQUEST['gato']) && $_REQUEST['gato']=="3")?"class=\"activado\"":""?>>MoMo</button></td>
-                        <td><button type="submit" name="gato" value="4" <?php echo (isset($_REQUEST['gato']) && $_REQUEST['gato']=="4")?"class=\"activado\"":""?>>ChuChu</button></td>
+                        <td>
+                            <input id="dd" type="radio" name="gato" value="0" checked>
+                            <label for="dd" class="boton">DD</label>
+                        </td>
+                        <td>
+                            <input id="tt" type="radio" name="gato" value="1">
+                            <label for="tt" class="boton">TT</label>
+                        </td>
+                        <td>
+                            <input id="coco" type="radio" name="gato" value="2">
+                            <label for="coco" class="boton">CoCo</label>
+                        </td>
+                        <td>
+                            <input id="momo" type="radio" name="gato" value="3">
+                            <label for="momo" class="boton">MoMo</label>
+                        </td>
+                        <td>
+                            <input id="chuchu" type="radio" name="gato" value="4">
+                            <label for="chuchu" class="boton">ChuChu</label>
+                        </td>
                     </tr>
                     <tr>
-                        <td><button type="submit" name="gato" value="5" <?php echo (isset($_REQUEST['gato']) && $_REQUEST['gato']=="5")?"class=\"activado\"":""?>>LaLa</button></td>
-                        <td><button type="submit" name="gato" value="6" <?php echo (isset($_REQUEST['gato']) && $_REQUEST['gato']=="6")?"class=\"activado\"":""?>>LuLu</button></td>
-                        <td><button type="submit" name="gato" value="7" <?php echo (isset($_REQUEST['gato']) && $_REQUEST['gato']=="7")?"class=\"activado\"":""?>>NaNa</button></td>
-                        <td><button type="submit" name="gato" value="8" <?php echo (isset($_REQUEST['gato']) && $_REQUEST['gato']=="8")?"class=\"activado\"":""?>>ToTo</button></td>
-                        <td><button type="submit" name="gato" value="9" <?php echo (isset($_REQUEST['gato']) && $_REQUEST['gato']=="9")?"class=\"activado\"":""?>>DoDo</button></td>
+                        <td>
+                            <input id="lala" type="radio" name="gato" value="5">
+                            <label for="lala" class="boton">LaLa</label>
+                        </td>
+                        <td>
+                            <input id="lulu" type="radio" name="gato" value="6">
+                            <label for="lulu" class="boton">LuLu</label>
+                        </td>
+                        <td>
+                            <input id="nana" type="radio" name="gato" value="7">
+                            <label for="nana" class="boton">NaNa</label>
+                        </td>
+                        <td>
+                            <input id="toto" type="radio" name="gato" value="8">
+                            <label for="toto" class="boton">ToTo</label>
+                        </td>
+                        <td>
+                            <input id="dodo" type="radio" name="gato" value="9">
+                            <label for="dodo" class="boton">DoDo</label>
+                        </td>
                     </tr>
                 </table>
             </form>
         </main>
         <footer>
             <p>
-                Óscar Llamas Parra &nbsp;
+                <a href="http://daw214.ieslossauces.es/">Óscar Llamas Parra </a>&nbsp;
                 <a href="https://github.com/OscarLlaPar/" target="__blank"><img src="webroot/img/github.png" alt="Github"></img></a>
             </p>
             <p>

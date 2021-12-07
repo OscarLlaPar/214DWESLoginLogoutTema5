@@ -107,6 +107,7 @@ and open the template in the editor.
                 <?php echo "<img src=\"".$aGatos['imagen'][$_COOKIE['gato']]."\"";?>
                 <p><?php echo $aGatos['mensaje'][$_COOKIE['gato']]?></p>
             </div>
+            <a href="editarPerfil.php"><div class="boton">Editar perfil</div></a>
         </main>
         <footer>
             <p>
