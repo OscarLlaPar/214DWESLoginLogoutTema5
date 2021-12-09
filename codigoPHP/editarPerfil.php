@@ -17,8 +17,6 @@
        'descUsuario'=>null
    ];
     if(!empty($_REQUEST['editar'])){
-        $aErrores['nombreUsuario'] = validacionFormularios::comprobarAlfaNumerico($_REQUEST['nombreUsuario'], 8, 3, 1);
-       
        $aErrores['descUsuario'] = validacionFormularios::comprobarAlfaNumerico($_REQUEST['descUsuario'], 255, 3, 1);
        foreach($aErrores as $error){
             //condición de que hay un error
@@ -42,7 +40,6 @@
                 QUERY);
                 //Ejecución de la consulta de actualización
                 if($oConsulta->execute()){
-                    $_SESSION['usuario214LoginLogout']=$_REQUEST['nombreUsuario'];
                     header('Location: programa.php');
                 }
             }
@@ -68,10 +65,10 @@
                     //Preparación y ejecución de las consultas creadas en la condición
                     $oConsulta = $miDB->prepare(<<<QUERY
                                 SELECT * FROM T01_Usuario
-                                WHERE T01_CodUsuario = '{$_SESSION[usuario214LoginLogout]}'
+                                WHERE T01_CodUsuario = '{$_SESSION['usuario214LoginLogout']}'
                         QUERY);
                     
-                    $oConsulta->execute($aColumnas);
+                    $oConsulta->execute();
                     //Carga del registro en una variableç
                     $registroObjeto = $oConsulta->fetch(PDO::FETCH_OBJ);
                     
@@ -100,12 +97,17 @@
         <link href="../webroot/css/estilos.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
+        <header>
+            <h1>Desarrollo Web en Entorno Servidor</h1>
+            <h2>Tema 5</h2>
+            <a href="programa.php"><div class="cuadro" id="arriba">&#60;</div></a>
+        </header>
         <form action="editarPerfil.php">
             <fieldset>
                 <table>
                     <tr>
                         <td>
-                            <label for="nombreUsuario">Nombre de usuario<span>*</span>: </label>
+                            <label for="nombreUsuario">Nombre de usuario: </label>
                         </td>
                         <td>
                             <input type="text" name="nombreUsuario" value="<?php echo $aValores['T01_CodUsuario'];?>"  disabled>

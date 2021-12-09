@@ -134,7 +134,7 @@ and open the template in the editor.
         </header>
         <main class="mainLogin">
             <div class="login">
-                <form name="login" action="login.php">
+                <form name="login" action="login.php" method="get">
                         <table>
                             <tr>
                                 <td>

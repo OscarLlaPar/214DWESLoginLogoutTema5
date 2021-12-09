@@ -44,6 +44,7 @@ main{
 }
 a{
     text-decoration: none;
+    color: #00FFDD;
 }
 pre{
     text-align:left;
@@ -244,4 +245,12 @@ input[type="radio"]{
 }
 input:checked + label{
     box-shadow: 0 0 5px 5px #00FFDD ;
+}
+input:disabled{
+    background-color: gray;
+    border:none;
+    border:solid darkgrey 1px;
+}
+span{
+    color: #00FFDD
 }

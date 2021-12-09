@@ -26,7 +26,7 @@ and open the template in the editor.
             
         </header>
         <main class="mainIndex">  
-            <form action="index.php">    
+            <form action="<?php echo $_SERVER['PHP_SELF']?>">    
             <button type="submit" name="entrar"><div id="loginlogout">LoginLogout</div></button>
                 <div class="idiomas">
                         <h4>Idioma de bienvenida:</h4>

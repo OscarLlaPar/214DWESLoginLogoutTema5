@@ -54,11 +54,11 @@
        if($_REQUEST['confirmarPassword']!=$_REQUEST['password']){
            $aErrores['confirmarPassword']="Las contraseñas no coinciden.";
        }
-       foreach($aErrores as $error){
+       foreach($aErrores as $clave => $error){
             //condición de que hay un error
             if(($error)!=null){
                 //limpieza del campo para cuando vuelva a aparecer el formulario
-                $_REQUEST[key($error)]="";
+                $_REQUEST[$clave]="";
                 $entradaOK=false;
             }
         }

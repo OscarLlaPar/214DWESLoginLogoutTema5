@@ -25,14 +25,15 @@
 
             $consulta=<<<QUERY
                     SELECT T01_Password FROM T01_Usuario
-                    WHERE T01_CodUsuario ='{$_SESSION[usuario214LoginLogout]}'
+                    WHERE T01_CodUsuario ='{$_SESSION['usuario214LoginLogout']}'
                     QUERY;
 
             $resultadoConsulta = $miDB->prepare($consulta);
             $resultadoConsulta->execute();
             $oRegistro = $resultadoConsulta->fetchObject();
             
-            if(!$oRegistro || $oRegistro->T01_Password != hash('sha256', $_SESSION[usuario214LoginLogout].$_REQUEST['password'])){
+            if(!$oRegistro || $oRegistro->T01_Password != hash('sha256', $_SESSION['usuario214LoginLogout'].$_REQUEST['password'])){
+                $aErrores['password']="Contraseña incorrecta";
                 $entradaOK=false;
             }
         }    
@@ -50,16 +51,16 @@
        if($_REQUEST['confirmarPasswordNueva']!=$_REQUEST['passwordNueva']){
            $aErrores['confirmarPasswordNueva']="Las contraseñas no coinciden.";
        }
-       foreach($aErrores as $error){
+       foreach($aErrores as $clave=> $error){
             //condición de que hay un error
             if(($error)!=null){
                 //limpieza del campo para cuando vuelva a aparecer el formulario
-                $_REQUEST[key($error)]="";
+                $_REQUEST[$clave]="";
                 $entradaOK=false;
             }
         }
         if($entradaOK){
-            $nuevaPasswordEncriptada = hash('sha256',$_SESSION['usuario214LoginLogout'].$_REQUEST['password']);
+            $nuevaPasswordEncriptada = hash('sha256',$_SESSION['usuario214LoginLogout'].$_REQUEST['passwordNueva']);
             try{
 
                 //Establecimiento de la conexión 
@@ -68,7 +69,7 @@
                 //Preparación de la consulta
                 $oConsulta = $miDB->prepare(<<<QUERY
                         UPDATE T01_Usuario
-                        SET T01_Password = {$nuevaPasswordEncriptada}
+                        SET T01_Password = '{$nuevaPasswordEncriptada}'
                         WHERE T01_CodUsuario = '{$_SESSION['usuario214LoginLogout']}'
                 QUERY);
                 //Ejecución de la consulta de actualización
@@ -99,7 +100,12 @@
         <link href="../webroot/css/estilos.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <form action="editarPerfil.php">
+        <header>
+            <h1>Desarrollo Web en Entorno Servidor</h1>
+            <h2>Tema 5</h2>
+            <a href="editarPerfil.php"><div class="cuadro" id="arriba">&#60;</div></a>
+        </header>
+        <form action="cambiarPassword.php" method="get">
             <fieldset>
                 <table>
                     <tr>
@@ -121,7 +127,7 @@
                             <input type="password" name="passwordNueva">
                         </td>
                         <?php
-                            echo (!is_null($aErrores['password']))?"<td>$aErrores[password]</td>":"";
+                            echo (!is_null($aErrores['passwordNueva']))?"<td>$aErrores[passwordNueva]</td>":"";
                         ?>    
                     </tr>
                     <tr>
@@ -132,7 +138,7 @@
                             <input type="password" name="confirmarPasswordNueva">
                         </td>
                         <?php
-                            echo (!is_null($aErrores['confirmarPassword']))?"<td>$aErrores[confirmarPassword]</td>":"";
+                            echo (!is_null($aErrores['confirmarPasswordNueva']))?"<td>$aErrores[confirmarPasswordNueva]</td>":"";
                         ?>    
                     </tr>
                 </table>
