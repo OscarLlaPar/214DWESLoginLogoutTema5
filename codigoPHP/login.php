@@ -87,6 +87,9 @@ if($entradaOK){
     header("Location: programa.php");
 }
 else{
+    $aIdiomas=[
+        "Bienvenido/a", "Welcome", "Velkommen", "어서 오십시오"  
+    ];
     $aGatos=[
       'imagen' => [
           "../webroot/img/dd.jpg",
@@ -129,10 +132,11 @@ and open the template in the editor.
     <body>
         <header>
             <h1>Login</h1>
-            
-            <a href="../index.php"><div class="cuadro" id="arriba">&#60;</div></a>
+            <?php echo $aIdiomas[$_COOKIE['idioma']]?>
+            <a href="../indexLoginLogoutTema5.php"><div class="cuadro" id="arriba">&#60;</div></a>
         </header>
         <main class="mainLogin">
+            
             <div class="login">
                 <form name="login" action="login.php" method="get">
                         <table>
