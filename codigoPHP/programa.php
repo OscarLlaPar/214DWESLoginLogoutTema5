@@ -99,6 +99,7 @@ and open the template in the editor.
                 <p> <?php echo $aIdiomas[$_COOKIE['idioma']].", ".$usuarioCompleto;?>!</p>
                 <p><?php echo ($numConexiones==1)?"Es la primera vez que te conectas!": "Te has conectado {$numConexiones} veces en total";?> </p>
                 <p><?php  echo ($numConexiones==1)?"":"Última conexión:".$oFecha->setTimestamp($_SESSION['conexionAnterior'])->format("d-m-Y h:i:s")?></p>
+                <a href="editarPerfil.php"><div class="boton">Editar perfil</div></a>
                 <a href="detalle.php"><div class="boton">Detalle</div></a>
             </div>
             
@@ -107,6 +108,7 @@ and open the template in the editor.
                 <?php echo "<img src=\"".$aGatos['imagen'][$_COOKIE['gato']]."\"";?>
                 <p><?php echo $aGatos['mensaje'][$_COOKIE['gato']]?></p>
             </div>
+            
         </main>
         <footer>
             <p>
