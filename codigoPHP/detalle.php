@@ -8,6 +8,9 @@ session_start();
 if (!isset($_SESSION['usuario214LoginLogout'])) {
     header('Location: login.php');
 }
+$aIdiomas=[
+        "Bienvenido/a", "Welcome", "Velkommen", "어서 오십시오"  
+    ];
 ?>
 <!DOCTYPE html>
 <!--
@@ -25,7 +28,7 @@ and open the template in the editor.
         <header>
             <h1>Desarrollo Web en Entorno Servidor</h1>
             <h2>Tema 5</h2>
-            
+            <?php echo $aIdiomas[$_COOKIE['idioma']]?>
             <a href="programa.php"><div class="cuadro" id="arriba">&#60;</div></a>
         </header>
         <main>   

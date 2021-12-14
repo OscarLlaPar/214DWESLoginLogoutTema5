@@ -71,7 +71,8 @@
                 QUERY);
                 //Ejecución de la consulta de actualización
                 if($oConsulta->execute()){
-                    header('Location: programa.php');
+                    var_dump($_FILES['imagenUsuario']['name']);
+                    //header('Location: programa.php');
                 }
             }
             //Gestión de errores relacionados con la base de datos
@@ -146,7 +147,7 @@
             <h2>Tema 5</h2>
             <a href="programa.php"><div class="cuadro" id="arriba">&#60;</div></a>
         </header>
-        <form action="editarPerfil.php" method="post">
+        <form action="editarPerfil.php" method="post" enctype="multipart/form-data">
             <fieldset>
                 <table>
                     <tr>
@@ -155,10 +156,7 @@
                         </td>
                         <td>
                             <input type="text" name="nombreUsuario" value="<?php echo $aValores['T01_CodUsuario'];?>"  disabled>
-                        </td>
-                        <?php
-                            echo (!is_null($aErrores['nombreUsuario']))?"<td>$aErrores[nombreUsuario]</td>":"";
-                        ?>        
+                        </td>    
                     </tr>
                     <tr>
                         <td>
@@ -170,6 +168,38 @@
                         <?php
                             echo (!is_null($aErrores['descUsuario']))?"<td>$aErrores[descUsuario]</td>":"";
                         ?>    
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="fechaHoraUltimaConexion">Última conexión: </label>
+                        </td>
+                        <td>
+                            <input type="text" name="fechaHoraUltimaConexion" value="<?php echo date('\E\l d/m/Y \a \l\a\s H:i:s', $aValores['T01_FechaHoraUltimaConexion']);?>"  disabled>
+                        </td>    
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="numConexiones">Veces conectado: </label>
+                        </td>
+                        <td>
+                            <input type="text" name="numConexiones" value="<?php echo $aValores['T01_NumConexiones'];?>"  disabled>
+                        </td>    
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="perfil">Perfil: </label>
+                        </td>
+                        <td>
+                            <input type="text" name="perfil" value="<?php echo $aValores['T01_Perfil'];?>"  disabled>
+                        </td>    
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="imagenUsuario">Imagen del usuario: </label>
+                        </td>
+                        <td>
+                            <input type="file" name="imagenUsuario" value="<?php echo $aValores['T01_ImagenUsuario'];?>">
+                        </td>    
                     </tr>
                 </table>
                     <a class="boton" href="cambiarPassword.php">
