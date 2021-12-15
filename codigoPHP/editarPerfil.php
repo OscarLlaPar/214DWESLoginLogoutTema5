@@ -10,12 +10,14 @@
     session_start();
     $aErrores = [
        'nombreUsuario'=>null,
-       'descUsuario'=>null
+       'descUsuario'=>null,
+       'imagenUsuario'=>null
    ];
-   $aRespuestas = [
+   /*$aRespuestas = [
        'nombreUsuario'=>null,
-       'descUsuario'=>null
-   ];
+       'descUsuario'=>null,
+       'imagenUsuario'=>null
+   ];*/
    if(isset($_REQUEST['cancelarEliminar'])){
        header('Location: editarPerfil.php');
        exit;
@@ -47,49 +49,7 @@
          unset($miDB);
         }
    }
-    if(!empty($_REQUEST['editar'])){
-       $aErrores['descUsuario'] = validacionFormularios::comprobarAlfaNumerico($_REQUEST['descUsuario'], 255, 3, 1);
-       foreach($aErrores as $error){
-            //condición de que hay un error
-            if(($error)!=null){
-                //limpieza del campo para cuando vuelva a aparecer el formulario
-                $_REQUEST[key($error)]="";
-                $entradaOK=false;
-            }
-        }
-        if($entradaOK){
-            try{
-
-                //Establecimiento de la conexión 
-                $miDB = new PDO(HOST, USER, PASSWORD);
-                $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                //Preparación de la consulta
-                $oConsulta = $miDB->prepare(<<<QUERY
-                        UPDATE T01_Usuario
-                        SET T01_DescUsuario = '{$_REQUEST['descUsuario']}'
-                        WHERE T01_CodUsuario = '{$_SESSION['usuario214LoginLogout']}'
-                QUERY);
-                //Ejecución de la consulta de actualización
-                if($oConsulta->execute()){
-                    var_dump($_FILES['imagenUsuario']['name']);
-                    //header('Location: programa.php');
-                }
-            }
-            //Gestión de errores relacionados con la base de datos
-            catch(PDOException $miExceptionPDO){
-                echo "Error: ".$miExceptionPDO->getMessage();
-                echo "<br>";
-                echo "Código de error: ".$miExceptionPDO->getCode();
-            }
-            finally{
-             //Cerrar la conexión
-             unset($miDB);
-            }
-
-        }
-        
-    }
-    try{    
+   try{    
     //Establecimiento de la conexión 
     $miDB = new PDO(HOST, USER, PASSWORD);
     $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -119,6 +79,64 @@
      //Cerrar la conexión
      unset($miDB);
     }
+    if(!empty($_REQUEST['editar'])){
+       $aErrores['descUsuario'] = validacionFormularios::comprobarAlfaNumerico($_REQUEST['descUsuario'], 255, 3, 1);
+       $aErrores['imagenUsuario'] = validacionFormularios::comprobarAlfaNumerico($_FILES['imagenUsuario']['name'], 255, 3, 0);
+       
+       if($aErrores['imagenUsuario']==null && !empty($_FILES['imagenUsuario']['name'])){
+           $aExtensiones = ['jpg', 'jpeg', 'png'];
+           $extension = substr($_FILES['imagenUsuario']['name'], strpos($_FILES['imagenUsuario']['name'], '.') + 1);
+           
+           if (!in_array($extension, $aExtensiones)) {
+                $aErrores['imagenUsuario'] = "El archivo no tiene una extensión válida. Sólo se admite ".implode(', ', $aExtensiones).".";
+            }
+           
+       }
+       foreach($aErrores as $error){
+            //condición de que hay un error
+            if(($error)!=null){
+                $entradaOK=false;
+            }
+        }
+        if($entradaOK){
+            if($_FILES['imagenUsuario']['name'] != ''){
+                $imagenUsuario = base64_encode(file_get_contents($_FILES['imagenUsuario']['tmp_name']));
+            }
+            else{
+                $imagenUsuario =$aValores['T01_ImagenUsuario'];
+            }
+            try{
+
+                //Establecimiento de la conexión 
+                $miDB = new PDO(HOST, USER, PASSWORD);
+                $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                //Preparación de la consulta
+                $oConsulta = $miDB->prepare(<<<QUERY
+                        UPDATE T01_Usuario
+                        SET T01_DescUsuario = '{$_REQUEST['descUsuario']}',
+                        T01_ImagenUsuario = '{$imagenUsuario}'
+                        WHERE T01_CodUsuario = '{$_SESSION['usuario214LoginLogout']}'
+                QUERY);
+                //Ejecución de la consulta de actualización
+                if($oConsulta->execute()){
+                    header('Location: programa.php');
+                }
+            }
+            //Gestión de errores relacionados con la base de datos
+            catch(PDOException $miExceptionPDO){
+                echo "Error: ".$miExceptionPDO->getMessage();
+                echo "<br>";
+                echo "Código de error: ".$miExceptionPDO->getCode();
+            }
+            finally{
+             //Cerrar la conexión
+             unset($miDB);
+            }
+
+        }
+        
+    }
+    
 ?>
 <!DOCTYPE html>
 <html>
@@ -195,11 +213,22 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="imagenUsuario">Imagen del usuario: </label>
+                            <label for="imagenUsuario">Imagen del usuario (.png, .jpg): </label>
+                            <br>
+                            <?php
+                                if(isset($aValores['T01_ImagenUsuario'])){
+                            ?>
+                            <img class="fotoPerfil" src="data:image/gif;base64, <?php echo $aValores['T01_ImagenUsuario'] ?>" alt="Foto de perfil">
+                            <?php
+                                }
+                            ?>
                         </td>
                         <td>
-                            <input type="file" name="imagenUsuario" value="<?php echo $aValores['T01_ImagenUsuario'];?>">
+                            <input type="file" name="imagenUsuario">
                         </td>    
+                        <?php
+                            echo (!is_null($aErrores['imagenUsuario']))?"<td>$aErrores[imagenUsuario]</td>":"";
+                        ?>    
                     </tr>
                 </table>
                     <a class="boton" href="cambiarPassword.php">

@@ -50,7 +50,7 @@ try{
     $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $consulta=<<<QUERY
-            SELECT T01_NumConexiones, T01_DescUsuario FROM T01_Usuario
+            SELECT T01_NumConexiones, T01_DescUsuario, T01_ImagenUsuario FROM T01_Usuario
             WHERE T01_CodUsuario ='{$_SESSION['usuario214LoginLogout']}'
             QUERY;
 
@@ -101,6 +101,22 @@ and open the template in the editor.
                 <p><?php  echo ($numConexiones==1)?"":"Última conexión:".$oFecha->setTimestamp($_SESSION['conexionAnterior'])->format("d-m-Y h:i:s")?></p>
                 <a href="editarPerfil.php"><div class="boton">Editar perfil</div></a>
                 <a href="detalle.php"><div class="boton">Detalle</div></a>
+                <div class="perfil">
+                    <?php
+                    if($oRegistro->T01_ImagenUsuario){
+                    ?>
+                        <img class="fotoPerfil" src="data:image/gif;base64, <?php echo $oRegistro->T01_ImagenUsuario ?>" alt="Foto de perfil">
+                    <?php
+                    }
+                    else{
+                    ?>
+                        <img class="fotoPerfil" src="../webroot/img/perfil.png" alt="Foto de perfil">
+                    <?php
+                    }
+                    ?>
+                    
+                    <p><?php echo $oRegistro->T01_DescUsuario;?></p>
+                </div>
             </div>
             
             
