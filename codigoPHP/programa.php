@@ -4,11 +4,13 @@
     * @author Óscar Llamas Parra - oscar.llapar@educa.jcyl.es - https://github.com/OscarLlaPar
     * Última modificación: 01/12/2021
 */
+//Recuperación de la sesión
 session_start();
-
+//Inicialización del array de saludos en distinos idiomas
 $aIdiomas=[
   "Bienvenido/a", "Welcome", "Velkommen", "어서 오십시오"  
 ];
+//Array con imagenes y mensajes de los distintos gatos
 $aGatos=[
     'imagen' => [
         "../webroot/img/dd.jpg",
@@ -35,28 +37,34 @@ $aGatos=[
         "DoDo dice: \"¿LoginLogout? ¿Eso es comida?\"",
     ]
 ];
-
+//Si no hay sesión
 if (!isset($_SESSION['usuario214LoginLogout'])) {
-    header('Location: login.php');
+    header('Location: login.php'); //Regreso al login
 }
+//Si se ha pulsado el boton de cerrar sesión
 if (isset($_REQUEST['logout'])) {
-    session_destroy();
-    header('Location: login.php');
+    session_destroy(); //Eliminar la sesión
+    header('Location: login.php'); //Volver al login
 }
+//Incluir configuración de la base de datos
 include "../config/confDB.php";
+//Creación de un objeto DateTime para ser usado posteriormente
 $oFecha=new DateTime();
 try{
+    //Conexión con la base de datos
     $miDB = new PDO(HOST, USER, PASSWORD);
     $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+    //Creación de la consulta
     $consulta=<<<QUERY
-            SELECT T01_NumConexiones, T01_DescUsuario FROM T01_Usuario
+            SELECT T01_NumConexiones, T01_DescUsuario, T01_ImagenUsuario FROM T01_Usuario
             WHERE T01_CodUsuario ='{$_SESSION['usuario214LoginLogout']}'
             QUERY;
-
+    //Preparación de la consulta        
     $resultadoConsulta = $miDB->prepare($consulta);
+    //Ejecución de la consulta
     $resultadoConsulta->execute();
     $oRegistro = $resultadoConsulta->fetchObject();
+    //Si ha habido un resultado, almacenar los datos en variables
     if($oRegistro){
         $numConexiones=$oRegistro->T01_NumConexiones;
         $usuarioCompleto=$oRegistro->T01_DescUsuario;
@@ -74,11 +82,6 @@ finally{
 }
 ?>
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <meta charset="UTF-8">
@@ -101,6 +104,22 @@ and open the template in the editor.
                 <p><?php  echo ($numConexiones==1)?"":"Última conexión:".$oFecha->setTimestamp($_SESSION['conexionAnterior'])->format("d-m-Y h:i:s")?></p>
                 <a href="editarPerfil.php"><div class="boton">Editar perfil</div></a>
                 <a href="detalle.php"><div class="boton">Detalle</div></a>
+                <div class="perfil">
+                    <?php
+                    if($oRegistro->T01_ImagenUsuario){
+                    ?>
+                        <img class="fotoPerfil" src="data:image/gif;base64, <?php echo $oRegistro->T01_ImagenUsuario ?>" alt="Foto de perfil">
+                    <?php
+                    }
+                    else{
+                    ?>
+                        <img class="fotoPerfil" src="../webroot/img/perfil.png" alt="Foto de perfil">
+                    <?php
+                    }
+                    ?>
+                    
+                    <p><?php echo $oRegistro->T01_DescUsuario;?></p>
+                </div>
             </div>
             
             
@@ -112,8 +131,8 @@ and open the template in the editor.
         </main>
         <footer>
             <p>
-                Óscar Llamas Parra &nbsp;
-                <a href="https://github.com/OscarLlaPar/" target="__blank"><img src="../webroot/img/github.png" alt="Github"></img></a>
+                <a href="http://daw214.ieslossauces.es/">Óscar Llamas Parra </a>&nbsp;
+                <a href="https://github.com/OscarLlaPar/214DWESLoginLogoutTema5" target="__blank"><img src="../webroot/img/github.png" alt="Github"></img></a>
             </p>
             <p>
                 DAW 2

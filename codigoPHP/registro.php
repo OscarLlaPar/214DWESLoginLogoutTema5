@@ -4,21 +4,31 @@
         * @author Óscar Llamas Parra - oscar.llapar@educa.jcyl.es - https://github.com/OscarLlaPar
         * Última modificación: 07/12/2021
     */
+    //Incluir configuración de la base de datos
     include "../config/confDB.php";
+    //Incluir la librería de validación
    include '../core/libreriaValidacion.php';
    $entradaOK = true; //Inicialización de la variable que nos indica que todo va bien
+   //Array con mensajes de error de los campos
    $aErrores = [
        'nombreUsuario'=>null,
        'descUsuario'=>null,
        'password'=>null,
        'confirmarPassword'=>null
    ];
+   //Array de las respuestas validadas
    $aRespuestas = [
        'nombreUsuario'=>null,
        'descUsuario'=>null,
        'password'=>null
    ];
-   if(!empty($_REQUEST['registrarse'])){
+   //Si se ha pulsado el botón de cancelar
+   if(!empty($_REQUEST['cancelar'])){
+       header('Location: login.php'); //Volver atrás
+   }
+   //Si se ha pulsado el botón de aceptar
+   if(!empty($_REQUEST['aceptar'])){
+       //Validación del nombre de usuario
        $aErrores['nombreUsuario'] = validacionFormularios::comprobarAlfaNumerico($_REQUEST['nombreUsuario'], 8, 3, 1);
        //Validación de clave primaria (solo en caso de que la función la confirme como válida)
         if($aErrores['nombreUsuario'] == null){
@@ -49,8 +59,11 @@
             }
             
         }
+        //Validar la descripción de usuario
        $aErrores['descUsuario'] = validacionFormularios::comprobarAlfaNumerico($_REQUEST['descUsuario'], 255, 3, 1);
+       //Validar la contraseña
        $aErrores['password'] = validacionFormularios::validarPassword($_REQUEST['password'], 8, 4, 1, 1);
+       //Validar confirmación de contraseña
        if($_REQUEST['confirmarPassword']!=$_REQUEST['password']){
            $aErrores['confirmarPassword']="Las contraseñas no coinciden.";
        }
@@ -67,9 +80,11 @@
        $entradaOK=false;
    }
    if($entradaOK){
+       //Almacenar datos introducidos en el array de respuestas
         $aRespuestas['nombreUsuario'] = $_REQUEST['nombreUsuario'];
         $aRespuestas['descUsuario'] = $_REQUEST['descUsuario'];
         $aRespuestas['password'] = $_REQUEST['password'];
+        //Creación de la password encriptada para introducir en la base de datos
         $passwordEncriptada = hash('sha256',$_REQUEST['nombreUsuario'].$_REQUEST['password']);
         try{
             //Establecimiento de la conexión 
@@ -104,6 +119,10 @@
         }
    }
    else{
+       //Inicialización del array de saludos en distinos idiomas
+        $aIdiomas=[
+                "Bienvenido/a", "Welcome", "Velkommen", "어서 오십시오"  
+        ];
 ?>
 <!DOCTYPE html>
 <html>
@@ -113,6 +132,11 @@
         <link href="../webroot/css/estilos.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
+        <header>
+            <h1>Desarrollo Web en Entorno Servidor</h1>
+            <h2>Tema 5</h2>
+            <?php echo $aIdiomas[$_COOKIE['idioma']]?>
+        </header>
         <form action="registro.php">
             <fieldset>
                 <table>
@@ -161,7 +185,8 @@
                         ?>    
                     </tr>
                 </table>
-                <input class="boton" type="submit" name="registrarse" value="Registrarse"> 
+                <input class="boton" type="submit" name="aceptar" value="Aceptar"> 
+                <input class="boton" type="submit" name="cancelar" value="Cancelar"> 
             </fieldset>
         </form>
     </body>

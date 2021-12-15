@@ -1,37 +1,38 @@
 <?php
+    //Si no se ha creado cookie del idioma
     if(!isset($_COOKIE['idioma'])){
-        setcookie('idioma', 0);
-        header("Location: indexLoginLogoutTema5.php");
+        setcookie('idioma', 0); //Cookie de idioma por defecto
+        header("Location: indexLoginLogoutTema5.php"); //Recargar la página
         exit;
     }
+    //Si se ha pulsado un botón de idioma
     if(isset($_REQUEST['idioma'])){
-        setcookie('idioma', $_REQUEST['idioma']);
-        header("Location: indexLoginLogoutTema5.php");
+        setcookie('idioma', $_REQUEST['idioma']); //Asignación a la cookie del valor elegido
+        header("Location: indexLoginLogoutTema5.php"); //Recargar la página
         exit;
     }
+    //Si no se ha creado cookie del gato
     if(!isset($_COOKIE['gato'])){
-        setcookie('gato', 0);
-        header("Location: indexLoginLogoutTema5.php");
+        setcookie('gato', 0);   //Cookie del gato por defecto
+        header("Location: indexLoginLogoutTema5.php");   //Recargar la página
         exit;
     }
+    //Si se ha pulsado un botón de gato
     if(isset($_REQUEST['gato'])){
-        setcookie('gato', $_REQUEST['gato']);
-        header("Location: indexLoginLogoutTema5.php");
+        setcookie('gato', $_REQUEST['gato']); //Asignación a la cookie del valor elegido
+        header("Location: indexLoginLogoutTema5.php"); //Recargar la página
     }
+    //Si se ha pulsado el botón para entrar
     if(isset($_REQUEST['entrar'])){
-        header("Location: codigoPHP/login.php");
+        header("Location: codigoPHP/login.php"); //Llevar al login
         exit;
     }
+    //Array con los saludos en distintos idiomas
     $aIdiomas=[
         "Bienvenido/a", "Welcome", "Velkommen", "어서 오십시오"  
     ];
 ?>
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <meta charset="UTF-8">
@@ -99,7 +100,7 @@ and open the template in the editor.
         <footer>
             <p>
                 <a href="http://daw214.ieslossauces.es/">Óscar Llamas Parra </a>&nbsp;
-                <a href="https://github.com/OscarLlaPar/" target="__blank"><img src="webroot/img/github.png" alt="Github"></img></a>
+                <a href="https://github.com/OscarLlaPar/214DWESLoginLogoutTema5" target="__blank"><img src="webroot/img/github.png" alt="Github"></img></a>
             </p>
             <p>
                 DAW 2

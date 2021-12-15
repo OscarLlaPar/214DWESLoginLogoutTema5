@@ -12,7 +12,7 @@ try{ //Dentro va el código susceptible de dar error
                 T01_FechaHoraUltimaConexion int default null,
                 T01_NumConexiones int unsigned default 0,
                 T01_Perfil enum('usuario','administrador') default 'usuario',
-                T01_ImagenUsuario blob default null
+                T01_ImagenUsuario mediumblob default null
             )engine=InnoDB;
         QUERY);
     $consulta->execute();
