@@ -1,23 +1,21 @@
 <?php
-/*
-    * Ventana de Detalle
-    * @author Óscar Llamas Parra - oscar.llapar@educa.jcyl.es - https://github.com/OscarLlaPar
-    * Última modificación: 01/12/2021
-*/
-session_start();
-if (!isset($_SESSION['usuario214LoginLogout'])) {
-    header('Location: login.php');
-}
-$aIdiomas=[
-        "Bienvenido/a", "Welcome", "Velkommen", "어서 오십시오"  
+    /*
+        * Ventana de Detalle
+        * @author Óscar Llamas Parra - oscar.llapar@educa.jcyl.es - https://github.com/OscarLlaPar
+        * Última modificación: 01/12/2021
+    */
+    //Recuperar la sesión
+    session_start();
+    //Si no hay sesión
+    if (!isset($_SESSION['usuario214LoginLogout'])) {
+        header('Location: login.php'); //Regresar al login
+    }
+    //Inicialización del array de saludos en distinos idiomas
+    $aIdiomas=[
+            "Bienvenido/a", "Welcome", "Velkommen", "어서 오십시오"  
     ];
 ?>
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <meta charset="UTF-8">
@@ -72,8 +70,8 @@ and open the template in the editor.
         </main>
         <footer>
             <p>
-                Óscar Llamas Parra &nbsp;
-                <a href="https://github.com/OscarLlaPar/" target="__blank"><img src="../webroot/img/github.png" alt="Github"></img></a>
+                <a href="http://daw214.ieslossauces.es/">Óscar Llamas Parra </a>&nbsp;
+                <a href="https://github.com/OscarLlaPar/214DWESLoginLogoutTema5" target="__blank"><img src="../webroot/img/github.png" alt="Github"></img></a>
             </p>
             <p>
                 DAW 2

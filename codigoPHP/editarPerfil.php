@@ -8,20 +8,26 @@
     include '../core/libreriaValidacion.php';
     $entradaOK = true; //Inicialización de la variable que nos indica que todo va bien
     session_start();
+    //Si no hay sesión
+    if (!isset($_SESSION['usuario214LoginLogout'])) {
+        header('Location: login.php'); //Regresar al login
+    }
+    //Inicializar el array de mensajes de error
     $aErrores = [
        'nombreUsuario'=>null,
        'descUsuario'=>null,
        'imagenUsuario'=>null
    ];
-   /*$aRespuestas = [
-       'nombreUsuario'=>null,
-       'descUsuario'=>null,
-       'imagenUsuario'=>null
-   ];*/
+    //Si se ha pulsado el botón de cancelar
+   if(!empty($_REQUEST['cancelar'])){
+       header('Location: programa.php'); //Volver atrás
+   }
+    //Si se pulsa el boton cancelar al eliminar
    if(isset($_REQUEST['cancelarEliminar'])){
-       header('Location: editarPerfil.php');
+       header('Location: editarPerfil.php'); //Se vuelve a la página de editar perfil
        exit;
    }
+   //Si se pulsa el botón de aceptar al eliminar
    if(isset($_REQUEST['aceptarEliminar'])){
        try{
             //Establecimiento de la conexión 
@@ -32,10 +38,10 @@
                     DELETE FROM T01_Usuario
                     WHERE T01_CodUsuario = '{$_SESSION['usuario214LoginLogout']}'
             QUERY);
-            //Ejecución de la consulta de actualización
+            //Ejecución de la consulta de actualización - Si se ejecuta...
             if($oConsulta->execute()){
-                session_destroy();
-                header('Location: ../indexLoginLogoutTema5.php');
+                session_destroy(); //Terminar la sesión
+                header('Location: ../indexLoginLogoutTema5.php'); //Volver a la página de inicio
             }
         }
         //Gestión de errores relacionados con la base de datos
@@ -60,7 +66,7 @@
             QUERY);
 
         $oConsulta->execute();
-        //Carga del registro en una variableç
+        //Carga del registro en una variable
         $registroObjeto = $oConsulta->fetch(PDO::FETCH_OBJ);
 
         $aValores=[];
@@ -79,32 +85,37 @@
      //Cerrar la conexión
      unset($miDB);
     }
-    if(!empty($_REQUEST['editar'])){
-       $aErrores['descUsuario'] = validacionFormularios::comprobarAlfaNumerico($_REQUEST['descUsuario'], 255, 3, 1);
-       $aErrores['imagenUsuario'] = validacionFormularios::comprobarAlfaNumerico($_FILES['imagenUsuario']['name'], 255, 3, 0);
-       
+    if(!empty($_REQUEST['aceptar'])){
+       $aErrores['descUsuario'] = validacionFormularios::comprobarAlfaNumerico($_REQUEST['descUsuario'], 255, 3, 1); //Validación de la descripción introducida
+       $aErrores['imagenUsuario'] = validacionFormularios::comprobarAlfaNumerico($_FILES['imagenUsuario']['name'], 255, 3, 0); //Validación del nombre del archivo de imagen
+       //Si se ha validado el nombre de la imagen
        if($aErrores['imagenUsuario']==null && !empty($_FILES['imagenUsuario']['name'])){
-           $aExtensiones = ['jpg', 'jpeg', 'png'];
-           $extension = substr($_FILES['imagenUsuario']['name'], strpos($_FILES['imagenUsuario']['name'], '.') + 1);
-           
+           $aExtensiones = ['jpg', 'jpeg', 'png']; //Array de extensiones válidas
+           $extension = substr($_FILES['imagenUsuario']['name'], strpos($_FILES['imagenUsuario']['name'], '.') + 1); //Se extrae la extensión del nombre del archivo
+           //Si la extensión extraída no coincide con ninguna de las del array
            if (!in_array($extension, $aExtensiones)) {
-                $aErrores['imagenUsuario'] = "El archivo no tiene una extensión válida. Sólo se admite ".implode(', ', $aExtensiones).".";
+                $aErrores['imagenUsuario'] = "El archivo no tiene una extensión válida. Sólo se admite ".implode(', ', $aExtensiones)."."; //Creación del mensaje de error
             }
            
        }
+       //Recorrido de errores de los campos
        foreach($aErrores as $error){
             //condición de que hay un error
             if(($error)!=null){
-                $entradaOK=false;
+                $entradaOK=false; //La entrada está mal
             }
         }
+        //Si todo ha ido bien
         if($entradaOK){
+            //Si se ha especificado imagen de usuario
             if($_FILES['imagenUsuario']['name'] != ''){
-                $imagenUsuario = base64_encode(file_get_contents($_FILES['imagenUsuario']['tmp_name']));
+                $imagenUsuario = base64_encode(file_get_contents($_FILES['imagenUsuario']['tmp_name'])); //Almacenamiento del fichero enviado
             }
+            //Si no se ha especificado imagen
             else{
-                $imagenUsuario =$aValores['T01_ImagenUsuario'];
+                $imagenUsuario =$aValores['T01_ImagenUsuario']; //Asignación de la imagen que había antes
             }
+            //Conexión a la BD para efectuar los cambios
             try{
 
                 //Establecimiento de la conexión 
@@ -117,9 +128,9 @@
                         T01_ImagenUsuario = '{$imagenUsuario}'
                         WHERE T01_CodUsuario = '{$_SESSION['usuario214LoginLogout']}'
                 QUERY);
-                //Ejecución de la consulta de actualización
+                //Ejecución de la consulta de actualización - Si se ejecuta...
                 if($oConsulta->execute()){
-                    header('Location: programa.php');
+                    header('Location: programa.php'); //Regreso al programa
                 }
             }
             //Gestión de errores relacionados con la base de datos
@@ -163,7 +174,6 @@
         <header>
             <h1>Desarrollo Web en Entorno Servidor</h1>
             <h2>Tema 5</h2>
-            <a href="programa.php"><div class="cuadro" id="arriba">&#60;</div></a>
         </header>
         <form action="editarPerfil.php" method="post" enctype="multipart/form-data">
             <fieldset>
@@ -231,12 +241,19 @@
                         ?>    
                     </tr>
                 </table>
-                    <a class="boton" href="cambiarPassword.php">
-                            Cambiar contraseña
-                        </a>
-                <input class="boton" type="submit" name="eliminar" value="Darse de baja">
-                <br>
-                <input class="boton" type="submit" name="editar" value="Aceptar"> 
+                <table>
+                    <tr>
+                        <td><input class="boton" type="submit" name="aceptar" value="Aceptar"></td>
+                        <td><input class="boton" type="submit" name="cancelar" value="Cancelar"> </td>
+                    </tr>
+                    <tr>
+                        <td><a class="boton" href="cambiarPassword.php">Cambiar contraseña</a></td>
+                        <td><input class="boton" type="submit" name="eliminar" value="Darse de baja"></td>
+                    </tr>
+                    
+                </table>
+                
+                
             </fieldset>
         </form>
         
